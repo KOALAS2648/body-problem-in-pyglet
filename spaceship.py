@@ -13,7 +13,7 @@ class Spaceship(shapes.Circle):
     def distance(self, other: object):
         return (other.x-self.x)**2 + (self.y-other.y)**2
     def get_force(self,screen,  other: object):
-        force = screen.G*(self.mass*other.mass / self.distance(other))
+        force = other.gravity*(self.mass*other.mass / self.distance(other))
         return force
     def move(self, screen, other):
         otherx, othery = other.x, other.y

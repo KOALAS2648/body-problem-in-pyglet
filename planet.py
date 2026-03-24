@@ -7,3 +7,4 @@ class Planet(shapes.Circle):
         self.x = x
         self.y = y
         self.mass = mass
+        self.gravity = 10
