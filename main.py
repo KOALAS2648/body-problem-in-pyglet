@@ -12,7 +12,7 @@ class Window(pyglet.window.Window):
         self.height = height
         self.G =100
         self.batch = Batch()
-        self.planet = Planet(self.width//2, self.height//2, 100, 100, color=(255, 76, 148), batch=self.batch)
+        self.planet = Planet(self.width//2, self.height//2, 100, 100, color=(255, 76, 148, 255), batch=self.batch)
         self.a1 = Spaceship(startx=200, starty=400, xvel=0, yvel=2, mass=1, radius=10, visible=True, color=(50, 225, 30, 255), batch=self.batch)
         self.mouse_pressed = False
         self.spaceships = [self.a1, ]
@@ -42,7 +42,7 @@ class Window(pyglet.window.Window):
         self.deltay = y - self.startMousey
         self.add_obj(self.deltax, self.deltay)
     def add_obj(self, deltax, deltay):
-        self.spaceships.append(Spaceship(self.startMousex, self.startMousey, deltax//10, deltay//10, 10, 10, visible=True, color=(255,45, 175), batch=self.batch))
+        self.spaceships.append(Spaceship(self.startMousex, self.startMousey, deltax//10, deltay//10, 10, 10, visible=True, color=(255,45, 175, 255), batch=self.batch))
 
     def update(self, dt):
         
