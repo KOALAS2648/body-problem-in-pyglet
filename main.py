@@ -18,12 +18,13 @@ class Window(pyglet.window.Window):
         self.startMousey = 0
         self.deltax = 0
         self.deltay = 0
+        self.clock = pyglet.clock.Clock()
     def on_draw(self):
+        self.clock.tick()
         self.clear()
         self.fps_display.draw()
         self.planet.draw()
-        for ship in self.spaceships:
-            ship.draw()
+        self.batch.draw()
     def on_mouse_press(self, x, y, button, modifiers):
         self.startMousex = x
         self.startMousey = y
@@ -32,12 +33,13 @@ class Window(pyglet.window.Window):
         self.deltay = y - self.startMousey
         self.add_obj(self.deltax, self.deltay)
     def add_obj(self, deltax, deltay):
-        self.spaceships.append(Spaceship(self.startMousex, self.startMousey, deltax//3, deltay//3, 10, 10, visible=True, color=(255,45, 175)))
+        self.spaceships.append(Spaceship(self.startMousex, self.startMousey, deltax//3, deltay//3, 10, 10, visible=True, color=(255,45, 175), batch=self.batch))
     def update(self, dt):
         for ship in self.spaceships:
             ship.move(self, other=self.planet)
 
 if __name__ == "__main__":
     screen = Window(800, 1000, "3 body program")
-    pyglet.clock.schedule_interval(screen.update, 1/120.0)
+    screen.clock.schedule_interval(screen.update, 1/120.0)
+    
     pyglet.app.run()

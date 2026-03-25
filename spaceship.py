@@ -25,7 +25,7 @@ class Spaceship(shapes.Circle):
 
         self.velx -= force * math.cos(angle)
         self.vely += force * math.sin(angle)
-        self.x += self.velx
+        self.x -= self.velx
         self.y -= self.vely
     def draw(self):
         if self.visible:
