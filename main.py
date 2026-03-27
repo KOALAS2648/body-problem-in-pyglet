@@ -6,7 +6,7 @@ from pyglet.graphics import Batch
 from random import randint
 class Window(pyglet.window.Window):
     def __init__(self, width, height, name):
-        super().__init__(width, height, name, resizable=True)
+        super().__init__(height, width, name, resizable=True)
         self.fps_display = pyglet.window.FPSDisplay(window=self)
         self.width = width
         self.height = height
@@ -23,23 +23,29 @@ class Window(pyglet.window.Window):
         self.deltay = 0
         self.clock = pyglet.clock.Clock()
         self.drawLine = shapes.Line(self.startMousex, self.startMousey, 0, 0, 5, (255,67,92), batch=self.batch)
-
+        self.set_caption = "testing"
+        
     def on_draw(self):
         self.clock.tick()
         self.clear()
         self.fps_display.draw()
         self.planet.draw()
-        #self.drawLine.draw()
+        
         self.batch.draw()
+        if self.mouse_pressed:
+            self.drawLine.draw()
         
     def on_mouse_press(self, x, y, button, modifiers):
         self.startMousex = x
         self.startMousey = y
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
-        self.drawLine = shapes.Line(self.startMousex, self.startMousey, x, y, 5, (255,67,92), batch=self.batch)
+        self.mouse_pressed = True
+        self.drawLine = shapes.Line(self.startMousex, self.startMousey, x, y, 5, (255,67,92))
     def on_mouse_release(self, x, y, button, modifiers):
         self.deltax = x - self.startMousex
         self.deltay = y - self.startMousey
+
+        self.mouse_pressed = False
         self.add_obj(self.deltax, self.deltay)
     def add_obj(self, deltax, deltay):
         self.spaceships.append(Spaceship(self.startMousex, self.startMousey, deltax//10, deltay//10, 10, 10, visible=True, color=(255,45, 175, 255), batch=self.batch))
@@ -47,6 +53,7 @@ class Window(pyglet.window.Window):
     def update(self, dt):
         
         [ship.move(self, other=self.planet) for ship in self.spaceships]
+        [ship.move(self, other=self.planet) for ship in self.tempList]
 
 if __name__ == "__main__":
     screen = Window(900, 1000, "3 body program")
